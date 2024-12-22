@@ -1,0 +1,1 @@
+# Protobuf Trait For User Service
