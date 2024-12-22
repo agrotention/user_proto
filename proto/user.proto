@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+option go_package = "./user_proto";
+
+service UserService{
+    rpc UserDelete(InUserDelete) returns (OutUserDelete);
+    rpc UserDetail(InUserDetail) returns (OutUserDetail);
+    rpc UserDisable(InUserDisable) returns (OutUserDisable);
+    rpc UserList(InUserList) returns (OutUserList);
+    rpc UserRegister(InUserRegister) returns (OutUserRegister);
+    rpc UserUpdate(InUserUpdate) returns (OutUserUpdate);
+}
+
+message InUserDelete{
+    string id = 1;
+}
+message OutUserDelete{
+    string id = 1;
+}
+
+message InUserDetail{
+    string id = 1;
+}
+message OutUserDetail{
+    string id = 1;
+    string username = 2;
+    string fullName = 3;
+}
+
+message InUserDisable{
+    string id = 1;
+}
+message OutUserDisable{
+    string id = 1;
+}
+
+message InUserList{
+    int64 take = 1;
+    int64 start = 2;
+}
+message OutUserList{
+    repeated OutUserDetail users = 1;
+}
+
+message InUserRegister{
+    string username = 1;
+    string password = 2;
+    string fullName = 3;
+}
+message OutUserRegister{
+    string id = 1;
+}
+
+message InUserUpdate{
+    string id = 1;
+    string username = 2;
+    string password = 3;
+    string fullName = 4;
+}
+message OutUserUpdate{
+    string id = 1;
+}
+
