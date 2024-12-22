@@ -23,6 +23,7 @@ const (
 	UserService_UserDetail_FullMethodName   = "/UserService/UserDetail"
 	UserService_UserDisable_FullMethodName  = "/UserService/UserDisable"
 	UserService_UserList_FullMethodName     = "/UserService/UserList"
+	UserService_UserLogin_FullMethodName    = "/UserService/UserLogin"
 	UserService_UserRegister_FullMethodName = "/UserService/UserRegister"
 	UserService_UserUpdate_FullMethodName   = "/UserService/UserUpdate"
 )
@@ -35,6 +36,7 @@ type UserServiceClient interface {
 	UserDetail(ctx context.Context, in *InUserDetail, opts ...grpc.CallOption) (*OutUserDetail, error)
 	UserDisable(ctx context.Context, in *InUserDisable, opts ...grpc.CallOption) (*OutUserDisable, error)
 	UserList(ctx context.Context, in *InUserList, opts ...grpc.CallOption) (*OutUserList, error)
+	UserLogin(ctx context.Context, in *InUserLogin, opts ...grpc.CallOption) (*OutUserLogin, error)
 	UserRegister(ctx context.Context, in *InUserRegister, opts ...grpc.CallOption) (*OutUserRegister, error)
 	UserUpdate(ctx context.Context, in *InUserUpdate, opts ...grpc.CallOption) (*OutUserUpdate, error)
 }
@@ -87,6 +89,16 @@ func (c *userServiceClient) UserList(ctx context.Context, in *InUserList, opts .
 	return out, nil
 }
 
+func (c *userServiceClient) UserLogin(ctx context.Context, in *InUserLogin, opts ...grpc.CallOption) (*OutUserLogin, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OutUserLogin)
+	err := c.cc.Invoke(ctx, UserService_UserLogin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userServiceClient) UserRegister(ctx context.Context, in *InUserRegister, opts ...grpc.CallOption) (*OutUserRegister, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(OutUserRegister)
@@ -115,6 +127,7 @@ type UserServiceServer interface {
 	UserDetail(context.Context, *InUserDetail) (*OutUserDetail, error)
 	UserDisable(context.Context, *InUserDisable) (*OutUserDisable, error)
 	UserList(context.Context, *InUserList) (*OutUserList, error)
+	UserLogin(context.Context, *InUserLogin) (*OutUserLogin, error)
 	UserRegister(context.Context, *InUserRegister) (*OutUserRegister, error)
 	UserUpdate(context.Context, *InUserUpdate) (*OutUserUpdate, error)
 	mustEmbedUnimplementedUserServiceServer()
@@ -138,6 +151,9 @@ func (UnimplementedUserServiceServer) UserDisable(context.Context, *InUserDisabl
 }
 func (UnimplementedUserServiceServer) UserList(context.Context, *InUserList) (*OutUserList, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserList not implemented")
+}
+func (UnimplementedUserServiceServer) UserLogin(context.Context, *InUserLogin) (*OutUserLogin, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserLogin not implemented")
 }
 func (UnimplementedUserServiceServer) UserRegister(context.Context, *InUserRegister) (*OutUserRegister, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserRegister not implemented")
@@ -238,6 +254,24 @@ func _UserService_UserList_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_UserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(InUserLogin)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UserLogin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_UserLogin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UserLogin(ctx, req.(*InUserLogin))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_UserRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(InUserRegister)
 	if err := dec(in); err != nil {
@@ -296,6 +330,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserList",
 			Handler:    _UserService_UserList_Handler,
+		},
+		{
+			MethodName: "UserLogin",
+			Handler:    _UserService_UserLogin_Handler,
 		},
 		{
 			MethodName: "UserRegister",

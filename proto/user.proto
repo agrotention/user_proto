@@ -7,6 +7,7 @@ service UserService{
     rpc UserDetail(InUserDetail) returns (OutUserDetail);
     rpc UserDisable(InUserDisable) returns (OutUserDisable);
     rpc UserList(InUserList) returns (OutUserList);
+    rpc UserLogin(InUserLogin) returns (OutUserLogin);
     rpc UserRegister(InUserRegister) returns (OutUserRegister);
     rpc UserUpdate(InUserUpdate) returns (OutUserUpdate);
 }
@@ -40,6 +41,14 @@ message InUserList{
 }
 message OutUserList{
     repeated OutUserDetail users = 1;
+}
+
+message InUserLogin{
+    string username = 1;
+    string password = 2;
+}
+message OutUserLogin{
+    string accessToken = 1;
 }
 
 message InUserRegister{
