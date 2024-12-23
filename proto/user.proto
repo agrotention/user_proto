@@ -81,5 +81,5 @@ message OutUserVerifyToken{
     int64 nb = 3;
     string iss = 4;
     string sub = 5;
-    string aud = 6;
+    repeated string aud = 6;
 }
