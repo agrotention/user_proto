@@ -10,6 +10,7 @@ service UserService{
     rpc UserLogin(InUserLogin) returns (OutUserLogin);
     rpc UserRegister(InUserRegister) returns (OutUserRegister);
     rpc UserUpdate(InUserUpdate) returns (OutUserUpdate);
+    rpc UserVerifyToken(InUserVerifyToken) returns (OutUserVerifyToken);
 }
 
 message InUserDelete{
@@ -70,3 +71,15 @@ message OutUserUpdate{
     string id = 1;
 }
 
+
+message InUserVerifyToken{
+    string token = 1;
+}
+message OutUserVerifyToken{
+    int64 exp = 1;
+    int64 iat = 2;
+    int64 nb = 3;
+    string iss = 4;
+    string sub = 5;
+    string aud = 6;
+}
